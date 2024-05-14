@@ -38,7 +38,7 @@ pipeline {
                                                  }
                            }
               }
-    stage('Push the Image') {
+    stage('Push the Image') {  
        steps {
           sh 'docker push cbabu85/insure-me-app:5.0'
                             }
