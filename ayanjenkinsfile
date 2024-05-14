@@ -27,7 +27,7 @@ pipeline {
     stage('Create Image using the package') {
        steps {
          echo 'creating a docker image from the package'
-         sh 'docker build -t ayanshaikh1705/insureme_project:latest .'
+         sh 'docker build -t ayanshaikh1705/insureme_project:1.0 .'
               }
            }
     stage('Docker Login') {
@@ -40,7 +40,7 @@ pipeline {
               }
     stage('Push the Image') {  
        steps {
-          sh 'docker push ayanshaikh1705/insureme_project:latest'
+          sh 'docker push ayanshaikh1705/insureme_project:1.0'
                             }
              }
    
