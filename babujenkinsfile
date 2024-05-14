@@ -20,34 +20,30 @@ pipeline {
           }
     stage('Publish Test Reports') {
        steps {
-         publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '/var/lib/jenkins/workspace/InsureProject/target/surefire-reports', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+         publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '/var/lib/jenkins/workspace/InsureMe_project/target/surefire-reports', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
              }
           }
 
     stage('Create Image using the package') {
        steps {
          echo 'creating a docker image from the package'
-         sh 'docker build -t cbabu85/insure-me-03may:1.0 .'
+         sh 'docker build -t ayanshaikh1705/InsureMe_project:latest .'
               }
            }
     stage('Docker Login') {
        steps {
           echo 'Login to Docker hub to push the images'
-          withCredentials([usernamePassword(credentialsId: 'Dockerlogin-user', passwordVariable: 'Dockerpassword', usernameVariable: 'Dockerlogin')]) {
-          sh 'docker login -u ${Dockerlogin} -p ${Dockerpassword}'
+          withCredentials([usernamePassword(credentialsId: 'Docker_Cred', passwordVariable: 'dockerhub-pass', usernameVariable: 'Dockerlogin')])	{
+        sh 'docker login -u ${env.dockerhub-user} -p ${env.dockerhub-pass}'
                                                  }
                            }
               }
     stage('Push the Image') {  
        steps {
-          sh 'docker push cbabu85/insure-me-app:5.0'
+          sh 'docker push ayanshaikh1705/InsureMe_project:latest'
                             }
              }
-    stage('Deploy using Ansible') {
-       steps {
-        ansiblePlaybook credentialsId: 'ssh-user', disableHostKeyChecking: true, installation: 'ansible', inventory: '/etc/ansible/hosts', playbook: 'ansible.yml', vaultTmpPath: ''
-                              }
-            }
+   
      }
     
 }
