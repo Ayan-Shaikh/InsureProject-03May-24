@@ -20,27 +20,27 @@ pipeline {
           }
     stage('Publish Test Reports') {
        steps {
-         publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '/var/lib/jenkins/workspace/InsureMe_project/target/surefire-reports', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+         publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '/var/lib/jenkins/workspace/InsureMe_Project/target/surefire-reports', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
              }
           }
 
     stage('Create Image using the package') {
        steps {
          echo 'creating a docker image from the package'
-         sh 'docker build -t ayanshaikh1705/InsureMe_project:latest .'
+         sh 'docker build -t ayanshaikh1705/InsureMe_Project:latest .'
               }
            }
     stage('Docker Login') {
        steps {
           echo 'Login to Docker hub to push the images'
-          withCredentials([usernamePassword(credentialsId: 'Docker_Cred', passwordVariable: 'dockerhub-pass', usernameVariable: 'Dockerlogin')])	{
+          withCredentials([usernamePassword(credentialsId: 'Docker_Cred', passwordVariable: 'Dockerpass', usernameVariable: 'Dockerlogin')])	{
         sh 'docker login -u ${env.dockerhub-user} -p ${env.dockerhub-pass}'
                                                  }
                            }
               }
     stage('Push the Image') {  
        steps {
-          sh 'docker push ayanshaikh1705/InsureMe_project:latest'
+          sh 'docker push ayanshaikh1705/InsureMe_Project:latest'
                             }
              }
    
